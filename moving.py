@@ -5,7 +5,7 @@ import sys
 import glob
 from pygame import *
 
-h = 800
+h = 600
 w = 800
 pygame.init()
 screen = pygame.display.set_mode((w,h))
@@ -47,12 +47,10 @@ class Kva:
 
 kva_kva = Kva('kva')
 pos = 0
-img = pygame.image.load('/home/evgen/git/pyspace/kva1.png')
-screen.blit(img,(100,100))
 
 while 1:
     screen.fill((0,0,0))
-    clock.tick(30)
+    clock.tick(60)
 
     for e in pygame.event.get():
         if e.type == pygame.QUIT:
