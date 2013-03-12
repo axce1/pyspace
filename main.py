@@ -2,7 +2,7 @@ import invaders
 import pygame
 import sys
 
-w = 800
+w = 850
 h = 500
 
 pygame.init()
@@ -29,17 +29,13 @@ while 1:
             sys.exit()
         if ev.type == pygame.KEYDOWN:
             if ev.key == pygame.K_RIGHT:
-                print x
-                x += 5
-                screen.blit(hero, (x,450))
+                x += 25
             if ev.key == pygame.K_LEFT:
-                print x
-                x -=5
-                screen.blit(hero, (x,450))
+                x -= 25
 
 
     screen.fill((0,0,0))
-    clock.tick(60)
+    clock.tick(50)
 
     for i in range(len(enemies)):
         enemies[i].x += enemyspeed
@@ -52,6 +48,6 @@ while 1:
         enemyspeed = 2
 
     screen.blit(hero, (x,450))
-
+    pygame.display.set_caption('Space Invaders - %d fps' %clock.get_fps())
     pygame.display.flip()
 
