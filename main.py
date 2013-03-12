@@ -16,14 +16,27 @@ for x in range(5):
     enemies.append(invaders.Invaders(50*x+50, 50, 'boo'))
     enemies.append(invaders.Invaders(50*x+50, 100, 'kva'))
 
-print (enemies)
-enemyspeed = 15
 
+hero = pygame.image.load('spacy.png')
+hero = pygame.transform.scale(hero, (50,30))
+
+enemyspeed = 2
+x = 200
 while 1:
 
-    ev = pygame.event.poll()
-    if ev.type == pygame.QUIT:
-        sys.exit()
+    for ev in pygame.event.get():
+        if ev.type == pygame.QUIT:
+            sys.exit()
+        if ev.type == pygame.KEYDOWN:
+            if ev.key == pygame.K_RIGHT:
+                print x
+                x += 5
+                screen.blit(hero, (x,450))
+            if ev.key == pygame.K_LEFT:
+                print x
+                x -=5
+                screen.blit(hero, (x,450))
+
 
     screen.fill((0,0,0))
     clock.tick(60)
@@ -32,11 +45,13 @@ while 1:
         enemies[i].x += enemyspeed
         enemies[i].update(screen)
 
-    if enemies[len(enemies)-1].x > 500:
-        enemyspeed = -15
+    if enemies[len(enemies)-1].x > 750:
+        enemyspeed = -2
 
-    if enemies[0].x < 100:
-        enemyspeed = 15
+    if enemies[0].x < 50:
+        enemyspeed = 2
+
+    screen.blit(hero, (x,450))
 
     pygame.display.flip()
 
