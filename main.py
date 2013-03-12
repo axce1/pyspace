@@ -20,6 +20,7 @@ for x in range(5):
 hero = pygame.image.load('spacy.png')
 hero = pygame.transform.scale(hero, (50,30))
 
+playtime = 0
 enemyspeed = 2
 x = 200
 while 1:
@@ -35,7 +36,8 @@ while 1:
 
 
     screen.fill((0,0,0))
-    clock.tick(50)
+    m = clock.tick(50.00)
+    playtime += m/1000.0
 
     for i in range(len(enemies)):
         enemies[i].x += enemyspeed
@@ -48,6 +50,5 @@ while 1:
         enemyspeed = 2
 
     screen.blit(hero, (x,450))
-    pygame.display.set_caption('Space Invaders - %d fps' %clock.get_fps())
+    pygame.display.set_caption('Space Invaders - %.2f fps - %.2f' %(clock.get_fps(), playtime))
     pygame.display.flip()
-
