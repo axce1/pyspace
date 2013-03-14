@@ -19,6 +19,11 @@ for x in range(5):
 
 hero = invaders.Player(w/2,450)
 
+shots = pygame.sprite.Group()
+all = pygame.sprite.RenderUpdates()
+invaders.Shot.containers = shots, all
+
+shot = invaders.Shot(w/2,400)
 # repeat keydown
 pygame.key.set_repeat(1,1)
 
@@ -39,12 +44,10 @@ while 1:
             if ev.key == pygame.K_LEFT  and hero.px > 50:
                 hero.px -= 5
 
-        elif ev.type == pygame.KEYUP:
-            if ev.key == pygame.K_RIGHT:
-                herospeed = 0
+            if ev.key == pygame.K_SPACE:
+                shot.px = hero.px
+                shot.py = hero.py
 
-            if ev.key == pygame.K_LEFT:
-                herospeed = 0
 
     screen.fill((0,0,0))
     m = clock.tick(50.00)
@@ -60,11 +63,17 @@ while 1:
     if enemies[0].x < 50:
         enemyspeed = 2
 
+    #if invaders.shot.py < 500 and invaders.shot.py > 0:
+#    shot.update(screen)
 
     for i in range(len(enemies)):
         enemies[i].x += enemyspeed
         enemies[i].update(screen)
 
+  #  if  shot.py < 479: # and shot.py > 0:
+        #shot.py -= 5
+        #shot.update(screen)
+    all.update(screen)
     hero.update(screen)
 
     pygame.display.set_caption('Space Invaders - %.2f fps - %.2f' %(clock.get_fps(), playtime))

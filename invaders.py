@@ -40,3 +40,20 @@ class Player(pygame.sprite.Sprite):
 
         di.blit(self.hero, (self.px,self.py))
 
+
+class Shot(pygame.sprite.Sprite):
+    # class for working with player
+
+    def __init__(self, px, py):
+        """ init player """
+        pygame.sprite.Sprite.__init__(self, self.containers)
+        self.px   = px
+        self.py   = py
+        self.hero = pygame.image.load('shot.png')
+        #self.hero = pygame.transform.scale(self.hero, (50,30))
+
+    def update(self, di):
+
+        di.blit(self.hero, (self.px,self.py))
+        if self.py <= 400:
+            self.kill()
