@@ -18,17 +18,22 @@ for x in range(5):
     enemies.append(invaders.Invaders(50*x+50, 100, 'kva'))
 
 
-hero = invaders.Player(w/2,450)
 
 # create sprite group for shots
 shots_sprite = pygame.sprite.Group()
+hero_sprite = pygame.sprite.Group()
+boom = pygame.sprite.Group()
+
 all = pygame.sprite.RenderUpdates()
 
 # each shot sprite member both group
 invaders.Shot.containers = shots_sprite, all
+invaders.Hero.containers = hero_sprite, all
+invaders.Boom.containers = all
 
 #create single sprite
 shot = invaders.Shot(0,0)
+hero = invaders.Hero(w/2,450)
 
 # repeat keydown
 pygame.key.set_repeat(1,1)
@@ -42,7 +47,7 @@ while 1:
 
     all.clear(screen,screen)
 
-    all.update(screen)
+    all.update()
 
     for ev in pygame.event.get():
 
@@ -83,14 +88,13 @@ while 1:
 
     if  shot.py < 479: # and shot.py > 0:
         shot.py -= 5
-        shot.update(screen)
-    if shot.py < 100:
-        shot.kill()
+        shot.update()
 
-    shots_sprite.update(screen)
+    shots_sprite.update()
     shots_sprite.draw(screen)
 
-    hero.update(screen)
+    hero_sprite.update()
+    hero_sprite.draw(screen)
 
     pygame.display.set_caption('Space Invaders - %.2f fps - %.2f' %(clock.get_fps(), playtime))
     pygame.display.flip()

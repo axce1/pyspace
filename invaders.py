@@ -26,24 +26,8 @@ class Invaders(pygame.sprite.Sprite):
         di.blit(self.img,(self.x,self.y))
 
 
-class Player(pygame.sprite.Sprite):
-    # class for working with player
-
-    def __init__(self, px, py):
-        """ init player """
-        self.px   = px
-        self.py   = py
-        self.hero = pygame.image.load('spacy.png')
-        self.hero = pygame.transform.scale(self.hero, (50,30))
-
-    def update(self, di):
-
-        di.blit(self.hero, (self.px,self.py))
-
-
 class Shot(pygame.sprite.Sprite):
     # class for working with player
-    speed = -10
 
     def __init__(self,px, py):
         """ init player """
@@ -53,12 +37,35 @@ class Shot(pygame.sprite.Sprite):
         self.image = pygame.image.load('shot.png')
         self.rect  = self.image.get_rect()
 
-        #self.hero = pygame.transform.scale(self.hero, (50,30))
-
-    def update(self, di):
+    def update(self):
 
         self.rect.center = (self.px,self.py)
-
-        #di.blit(self.hero, (self.px,self.py))
         if self.py <= 0:
             self.kill()
+
+
+class Hero(pygame.sprite.Sprite):
+
+    def __init__(self, px, py):
+        pygame.sprite.Sprite.__init__(self, self.containers)
+        self.px = px
+        self.py = py
+        self.image = pygame.image.load('spacy.png')
+        self.rect = self.image.get_rect()
+
+    def update(self):
+        self.rect.center = (self.px, self.py)
+
+
+class Boom(pygame.sprite.Sprite):
+
+    def __init__(self, actor):
+        pygame.sprite.Sprite.__init__(self, self.containers)
+        self.image = pygame.image.load('explosion.png')
+        self.rect = self.image.get_rect(center=actor.rect.center)
+
+    def update(self):
+        self.rect.center = self.rect
+
+class Monster(pygame.sprite.Sprite):
+    pass
