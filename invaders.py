@@ -55,5 +55,5 @@ class Shot(pygame.sprite.Sprite):
     def update(self, di):
 
         di.blit(self.hero, (self.px,self.py))
-        if self.py <= 400:
+        if self.py <= 300:
             self.kill()

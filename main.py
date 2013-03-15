@@ -23,7 +23,7 @@ shots = pygame.sprite.Group()
 all = pygame.sprite.RenderUpdates()
 invaders.Shot.containers = shots, all
 
-shot = invaders.Shot(w/2,400)
+shot = invaders.Shot(w/2,500)
 # repeat keydown
 pygame.key.set_repeat(1,1)
 
@@ -70,9 +70,9 @@ while 1:
         enemies[i].x += enemyspeed
         enemies[i].update(screen)
 
-  #  if  shot.py < 479: # and shot.py > 0:
-        #shot.py -= 5
-        #shot.update(screen)
+    if  shot.py < 479: # and shot.py > 0:
+        shot.py -= 5
+        shot.update(screen)
     all.update(screen)
     hero.update(screen)
 
