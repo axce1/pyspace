@@ -43,17 +43,22 @@ class Player(pygame.sprite.Sprite):
 
 class Shot(pygame.sprite.Sprite):
     # class for working with player
+    speed = -10
 
-    def __init__(self, px, py):
+    def __init__(self,px, py):
         """ init player """
         pygame.sprite.Sprite.__init__(self, self.containers)
-        self.px   = px
-        self.py   = py
-        self.hero = pygame.image.load('shot.png')
+        self.px    = px
+        self.py    = py
+        self.image = pygame.image.load('shot.png')
+        self.rect  = self.image.get_rect()
+
         #self.hero = pygame.transform.scale(self.hero, (50,30))
 
     def update(self, di):
 
-        di.blit(self.hero, (self.px,self.py))
-        if self.py <= 300:
+        self.rect.center = (self.px,self.py)
+
+        #di.blit(self.hero, (self.px,self.py))
+        if self.py <= 0:
             self.kill()

@@ -6,6 +6,7 @@ w = 850
 h = 500
 
 pygame.init()
+
 screen = pygame.display.set_mode((w,h))
 
 clock = pygame.time.Clock()
@@ -19,18 +20,29 @@ for x in range(5):
 
 hero = invaders.Player(w/2,450)
 
-shots = pygame.sprite.Group()
+# create sprite group for shots
+shots_sprite = pygame.sprite.Group()
 all = pygame.sprite.RenderUpdates()
-invaders.Shot.containers = shots, all
 
-shot = invaders.Shot(w/2,500)
+# each shot sprite member both group
+invaders.Shot.containers = shots_sprite, all
+
+#create single sprite
+shot = invaders.Shot(0,0)
+
 # repeat keydown
 pygame.key.set_repeat(1,1)
 
 playtime = 0
 enemyspeed = 2
 herospeed = 0
+
+
 while 1:
+
+    all.clear(screen,screen)
+
+    all.update(screen)
 
     for ev in pygame.event.get():
 
@@ -44,10 +56,12 @@ while 1:
             if ev.key == pygame.K_LEFT  and hero.px > 50:
                 hero.px -= 5
 
-            if ev.key == pygame.K_SPACE:
-                shot.px = hero.px
-                shot.py = hero.py
 
+    keystate = pygame.key.get_pressed()
+    shoting = keystate[pygame.K_SPACE]
+    if shoting:
+        shot.kill()
+        shot = invaders.Shot(hero.px, 450)
 
     screen.fill((0,0,0))
     m = clock.tick(50.00)
@@ -63,9 +77,6 @@ while 1:
     if enemies[0].x < 50:
         enemyspeed = 2
 
-    #if invaders.shot.py < 500 and invaders.shot.py > 0:
-#    shot.update(screen)
-
     for i in range(len(enemies)):
         enemies[i].x += enemyspeed
         enemies[i].update(screen)
@@ -73,8 +84,14 @@ while 1:
     if  shot.py < 479: # and shot.py > 0:
         shot.py -= 5
         shot.update(screen)
-    all.update(screen)
+    if shot.py < 100:
+        shot.kill()
+
+    shots_sprite.update(screen)
+    shots_sprite.draw(screen)
+
     hero.update(screen)
 
     pygame.display.set_caption('Space Invaders - %.2f fps - %.2f' %(clock.get_fps(), playtime))
     pygame.display.flip()
+
