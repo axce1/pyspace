@@ -96,7 +96,7 @@ while 1:
         shot.update()
 
 
-    if pygame.sprite.spritecollide(shot, monsterS, 1):
+    if pygame.sprite.spritecollide(shot, monsterS, 1, pygame.sprite.collide_mask):
         print shotsS
         shot.py = 0
         shot.kill()
