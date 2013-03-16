@@ -13,13 +13,14 @@ clock = pygame.time.Clock()
 
 enemies = []
 
-for x in range(5):
-    enemies.append(invaders.Invaders(50*x+50, 50, 'boo'))
-    enemies.append(invaders.Invaders(50*x+50, 100, 'kva'))
+#for x in range(5):
+    #enemies.append(invaders.Monster(50*x+50, 50, 'boo'))
+    #enemies.append(invaders.Monster(50*x+50, 100, 'kva'))
 
 
 
 # create sprite group for shots
+monsterS = pygame.sprite.Group()
 shotsS = pygame.sprite.Group()
 heroS = pygame.sprite.Group()
 boomS = pygame.sprite.Group()
@@ -27,13 +28,17 @@ boomS = pygame.sprite.Group()
 all = pygame.sprite.RenderUpdates()
 
 # each shot sprite member both group
+invaders.Monster.containers = monsterS, all
 invaders.Shot.containers = shotsS, all
 invaders.Hero.containers = heroS, all
 invaders.Boom.containers = all
 
 #create single sprite
+for x in range(5):
+    enemies.append(invaders.Monster(50*x+50, 50, 'boo'))
+    enemies.append(invaders.Monster(50*x+50, 100, 'kva'))
 shot = invaders.Shot(0,0)
-hero = invaders.Hero(w/2,150)
+hero = invaders.Hero(w/2,450)
 
 # repeat keydown
 pygame.key.set_repeat(1,1)
@@ -56,7 +61,7 @@ while 1:
 
         elif ev.type == pygame.KEYDOWN:
             if ev.key == pygame.K_RIGHT and hero.px < 750:
-                hero.px += 50
+                hero.px += 5
 
             if ev.key == pygame.K_LEFT  and hero.px > 50:
                 hero.px -= 5
@@ -74,7 +79,7 @@ while 1:
 
     for i in range(len(enemies)):
         enemies[i].x += enemyspeed
-        enemies[i].update(screen)
+        enemies[i].update()
 
     if enemies[len(enemies)-1].x > 750:
         enemyspeed = -2
@@ -84,20 +89,32 @@ while 1:
 
     for i in range(len(enemies)):
         enemies[i].x += enemyspeed
-        enemies[i].update(screen)
+        enemies[i].update()
 
     if  shot.py < 479: # and shot.py > 0:
         shot.py -= 5
         shot.update()
 
 
-    pygame.sprite.spritecollide(shot, heroS, 1)
+    for monster in pygame.sprite.spritecollide(shot, monsterS, 1):
+        print shotsS
+        shot.kill()
+        print 'hoh'
+        print shotsS
+        #boo = invaders.Boom(hero)
+        #boo.update()
+
+    boomS.update()
+    boomS.draw(screen)
 
     shotsS.update()
     shotsS.draw(screen)
 
     heroS.update()
     heroS.draw(screen)
+
+    monsterS.update()
+    monsterS.draw(screen)
 
     pygame.display.set_caption('Space Invaders - %.2f fps - %.2f' %(clock.get_fps(), playtime))
     pygame.display.flip()
