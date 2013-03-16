@@ -46,7 +46,7 @@ pygame.key.set_repeat(1,1)
 playtime = 0
 enemyspeed = 2
 herospeed = 0
-
+killer = 0
 
 while 1:
 
@@ -97,13 +97,10 @@ while 1:
 
 
     if pygame.sprite.spritecollide(shot, monsterS, 1, pygame.sprite.collide_mask):
-        print shotsS
         shot.py = 0
         shot.kill()
-        print 'hoh'
-        print shotsS
-        #boo = invaders.Boom(hero)
-        #boo.update()
+        killer += 1
+        print 'Fuck U Spilberg %.1f' %killer
 
     boomS.update()
     boomS.draw(screen)
