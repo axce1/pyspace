@@ -60,13 +60,12 @@ class Boom(pygame.sprite.Sprite):
     def __init__(self, actor):
         pygame.sprite.Sprite.__init__(self, self.containers)
         self.image = pygame.image.load('explosion.png')
+        self.image = pygame.transform.scale(self.image, (50,50))
         self.rect = self.image.get_rect(center=actor.rect.center)
 
-    def update(self,actor):
+    #def update(self):
 
-        self.rect = self.image.get_rect(center=actor.rect.center)
-        self.image = pygame.image.load('explosion.png')
-        self.rect.center = self.rect
+     #   self.rect.center = self.rect1
 
 class Monster(pygame.sprite.Sprite):
 
