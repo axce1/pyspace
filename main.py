@@ -29,8 +29,8 @@ all = pygame.sprite.RenderUpdates()
 # each shot sprite member both group
 invaders.Monster.containers = monsterS, all
 invaders.Shot.containers = shotsS, all
-invaders.Hero.containers = heroS, all
-invaders.Boom.containers = boomS, all
+invaders.Hero.containers = all
+invaders.Boom.containers = all
 
 #create single sprite
 for x in range(5):
@@ -49,9 +49,10 @@ killer = 0
 
 while 1:
 
-    #all.clear(screen,screen)
+    all.clear(screen,screen)
 
-    #all.update()
+    all.update()
+
 
     for ev in pygame.event.get():
 
@@ -94,28 +95,28 @@ while 1:
         shot.py -= 5
         shot.update()
 
-    shotsS.update()
-    shotsS.draw(screen)
+ #   shotsS.update()
+    #shotsS.draw(screen)
 
-    heroS.update()
-    heroS.draw(screen)
+    #heroS.update()
+    #heroS.draw(screen)
 
-    monsterS.update()
-    monsterS.draw(screen)
+    #monsterS.update()
+    #monsterS.draw(screen)
+
 
     for monster in  pygame.sprite.spritecollide(shot, monsterS, 1, pygame.sprite.collide_mask):
         shot.py = 0
         shot.kill()
         boom = invaders.Boom(monster)
         #boomS.update()
-        boomS.draw(screen)
-        #pygame.time.delay(100)
+        #boomS.draw(screen)
         killer += 1
-        boom.kill()
+        #boom.kill()
         print 'Fuck U Spilberg %.1f' %killer
     print all
 
-
+    dirty = all.draw(screen)
     pygame.display.set_caption('Space Invaders - %.2f fps - %.2f' %(clock.get_fps(), playtime))
-    pygame.display.flip()
+    pygame.display.update(dirty)
 
