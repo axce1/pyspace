@@ -46,21 +46,32 @@ class Boom(pygame.sprite.Sprite):
 
 class Monster(pygame.sprite.Sprite):
 
+    currentImage = 0
+
     def __init__(self, x, y, name):
         pygame.sprite.Sprite.__init__(self, self.containers)
         self.x = x
         self.y = y
         if name == 'boo':
-            self.m = glob.glob('boo1.png')
+            self.m = glob.glob('boo*.png')
         elif name == 'kva':
-            self.m = glob.glob('kva1.png')
+            self.m = glob.glob('kva*.png')
         self.m.sort()
         self.img = pygame.image.load(self.m[0])
         self.image = pygame.transform.scale(self.img, (50,50))
         self.rect = self.image.get_rect()
 
     def update(self):
-        self.rect.center = (self.x, self.y)
+        if self.currentImage == 0:
+            self.img = pygame.image.load(self.m[0])
+            self.image = pygame.transform.scale(self.img, (50,50))
+            self.rect.center = (self.x, self.y)
+            self.currentImage = 1
+        elif self.currentImage == 1:
+            self.img = pygame.image.load(self.m[1])
+            self.image = pygame.transform.scale(self.img, (50,50))
+            self.rect.center = (self.x, self.y)
+            self.currentImage = 0
 
 
 class Fire(pygame.sprite.Sprite):
@@ -70,6 +81,7 @@ class Fire(pygame.sprite.Sprite):
     def __init__(self, monster):
         pygame.sprite.Sprite.__init__(self, self.containers)
         self.image = pygame.image.load('fire.png')
+        self.image = pygame.transform.scale(self.image, (10,20))
         self.rect = self.image.get_rect(midbottom=
                     monster.rect.move(0,5).midbottom)
        # self.rect = self.image.get_rect(midbottom=

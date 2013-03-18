@@ -7,7 +7,7 @@ w = 850
 h = 500
 
 BOOMBS = 80
-
+life = 3
 pygame.init()
 
 screen = pygame.display.set_mode((w,h))
@@ -79,7 +79,7 @@ while 1:
         shot = invaders.Shot(hero.px, 450)
 
     screen.fill((0,0,0))
-    m = clock.tick(50.00)
+    m = clock.tick(20.00)
     playtime += m/1000.0
 
     for i in range(len(enemies)):
@@ -101,7 +101,8 @@ while 1:
         shot.update()
 
     if not int(random.random() * BOOMBS):
-        fire = invaders.Fire(random.choice(enemies))
+        z = random.choice(enemies)
+        fire = invaders.Fire(z)
 
     for monster in  pygame.sprite.spritecollide(shot, monsterS, 1, pygame.sprite.collide_mask):
         shot.py = 0
@@ -112,8 +113,12 @@ while 1:
 
     for fire in pygame.sprite.spritecollide(hero, fireS, 1, pygame.sprite.collide_mask):
         boom = invaders.Boom(hero)
+        life = life - 1
         fire.speed = 0
         fire.kill()
+        if life == 0:
+            hero.kill()
+
 
     dirty = all.draw(screen)
     pygame.display.set_caption('Space Invaders - %.2f fps - %.2f' %(clock.get_fps(), playtime))
