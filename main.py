@@ -1,5 +1,6 @@
 import invaders
 import pygame
+import random
 import sys
 
 w = 850
@@ -24,6 +25,7 @@ monsterS = pygame.sprite.Group()
 shotsS = pygame.sprite.Group()
 heroS = pygame.sprite.Group()
 boomS = pygame.sprite.Group()
+fireS = pygame.sprite.Group()
 all = pygame.sprite.RenderUpdates()
 
 # each shot sprite member both group
@@ -31,6 +33,7 @@ invaders.Monster.containers = monsterS, all
 invaders.Shot.containers = shotsS, all
 invaders.Hero.containers = all
 invaders.Boom.containers = all
+invaders.Fire.containers = all
 
 #create single sprite
 for x in range(5):
@@ -104,6 +107,7 @@ while 1:
     #monsterS.update()
     #monsterS.draw(screen)
 
+    invaders.Fire(random.choice(enemies))
 
     for monster in  pygame.sprite.spritecollide(shot, monsterS, 1, pygame.sprite.collide_mask):
         shot.py = 0
