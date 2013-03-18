@@ -6,6 +6,8 @@ import sys
 w = 850
 h = 500
 
+BOOMBS = 80
+
 pygame.init()
 
 screen = pygame.display.set_mode((w,h))
@@ -33,7 +35,7 @@ invaders.Monster.containers = monsterS, all
 invaders.Shot.containers = shotsS, all
 invaders.Hero.containers = all
 invaders.Boom.containers = all
-invaders.Fire.containers = all
+invaders.Fire.containers = fireS, all
 
 #create single sprite
 for x in range(5):
@@ -98,27 +100,20 @@ while 1:
         shot.py -= 5
         shot.update()
 
- #   shotsS.update()
-    #shotsS.draw(screen)
-
-    #heroS.update()
-    #heroS.draw(screen)
-
-    #monsterS.update()
-    #monsterS.draw(screen)
-
-    invaders.Fire(random.choice(enemies))
+    if not int(random.random() * BOOMBS):
+        fire = invaders.Fire(random.choice(enemies))
 
     for monster in  pygame.sprite.spritecollide(shot, monsterS, 1, pygame.sprite.collide_mask):
         shot.py = 0
         shot.kill()
         boom = invaders.Boom(monster)
-        #boomS.update()
-        #boomS.draw(screen)
         killer += 1
-        #boom.kill()
         print 'Fuck U Spilberg %.1f' %killer
-    print all
+
+    for fire in pygame.sprite.spritecollide(hero, fireS, 1, pygame.sprite.collide_mask):
+        boom = invaders.Boom(hero)
+        fire.speed = 0
+        fire.kill()
 
     dirty = all.draw(screen)
     pygame.display.set_caption('Space Invaders - %.2f fps - %.2f' %(clock.get_fps(), playtime))
