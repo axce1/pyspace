@@ -46,32 +46,41 @@ class Boom(pygame.sprite.Sprite):
 
 class Monster(pygame.sprite.Sprite):
 
-    currentImage = 0
+    frame = 0
+    last_update = 0
+
 
     def __init__(self, x, y, name):
         pygame.sprite.Sprite.__init__(self, self.containers)
         self.x = x
         self.y = y
+        self.m_speed_init = 10
+        self.m_speed = self.m_speed_init
         if name == 'boo':
             self.m = glob.glob('boo*.png')
         elif name == 'kva':
             self.m = glob.glob('kva*.png')
         self.m.sort()
+        self.m_pos = 0
         self.img = pygame.image.load(self.m[0])
         self.image = pygame.transform.scale(self.img, (50,50))
         self.rect = self.image.get_rect()
 
     def update(self):
-        if self.currentImage == 0:
-            self.img = pygame.image.load(self.m[0])
-            self.image = pygame.transform.scale(self.img, (50,50))
-            self.rect.center = (self.x, self.y)
-            self.currentImage = 1
-        elif self.currentImage == 1:
-            self.img = pygame.image.load(self.m[1])
-            self.image = pygame.transform.scale(self.img, (50,50))
-            self.rect.center = (self.x, self.y)
-            self.currentImage = 0
+
+        tick = pygame.time.get_ticks()
+        self.seconds = tick / 100.0
+        self.cycletime += self.seconds
+
+        if tick - self.last_update > 350:
+            self.frame += 1
+            if self.frame >= len(self.m): self.frame = 0
+
+            self.image = pygame.image.load(self.m[self.frame])
+            self.last_update = tick
+
+        self.image = pygame.transform.scale(self.image, (50,50))
+        self.rect.center = (self.x, self.y)
 
 
 class Fire(pygame.sprite.Sprite):

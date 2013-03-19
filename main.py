@@ -79,7 +79,7 @@ while 1:
         shot = invaders.Shot(hero.px, 450)
 
     screen.fill((0,0,0))
-    m = clock.tick(20.00)
+    m = clock.tick(50.00)
     playtime += m/1000.0
 
     for i in range(len(enemies)):
