@@ -121,6 +121,7 @@ while 1:
         shot.py = 0
         fire.speed = 0
         invaders.Boom(shot)
+        score.SCORE += 1
         fire.kill()
         shot.kill()
 
