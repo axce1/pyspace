@@ -45,7 +45,7 @@ shot = invaders.Shot(0,0)
 hero = invaders.Hero(w/2,450)
 
 # repeat keydown
-pygame.key.set_repeat(1,1)
+#pygame.key.set_repeat(1,1)
 
 playtime = 0
 enemyspeed = 2
@@ -64,17 +64,15 @@ while 1:
         if ev.type == pygame.QUIT:
             sys.exit()
 
-        elif ev.type == pygame.KEYDOWN:
-            if ev.key == pygame.K_RIGHT and hero.px < 750:
-                hero.px += 5
+    keypress = pygame.key.get_pressed()
 
-            if ev.key == pygame.K_LEFT  and hero.px > 50:
-                hero.px -= 5
+    if keypress[pygame.K_RIGHT] and hero.px < 750:
+        hero.px += 5
 
+    if keypress[pygame.K_LEFT]  and hero.px > 50:
+        hero.px -= 5
 
-    keystate = pygame.key.get_pressed()
-    shoting = keystate[pygame.K_SPACE]
-    if shoting:
+    if keypress[pygame.K_SPACE]:
         shot.kill()
         shot = invaders.Shot(hero.px, 450)
 
@@ -118,6 +116,9 @@ while 1:
         fire.kill()
         if life == 0:
             hero.kill()
+            del hero
+            life = 3
+            hero = invaders.Hero(w/2,450)
 
 
     dirty = all.draw(screen)

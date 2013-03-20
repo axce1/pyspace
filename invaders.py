@@ -28,6 +28,7 @@ class Hero(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
 
     def update(self):
+
         self.rect.center = (self.px, self.py)
 
 class Boom(pygame.sprite.Sprite):
@@ -70,7 +71,6 @@ class Monster(pygame.sprite.Sprite):
 
         tick = pygame.time.get_ticks()
         self.seconds = tick / 100.0
-        self.cycletime += self.seconds
 
         if tick - self.last_update > 350:
             self.frame += 1
@@ -81,7 +81,6 @@ class Monster(pygame.sprite.Sprite):
 
         self.image = pygame.transform.scale(self.image, (50,50))
         self.rect.center = (self.x, self.y)
-
 
 class Fire(pygame.sprite.Sprite):
 
