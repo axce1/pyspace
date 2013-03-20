@@ -1,6 +1,23 @@
 import glob
 import pygame
 
+class Score(pygame.sprite.Sprite):
+
+    SCORE = 0
+
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.font = pygame.font.Font(None, 40)
+        self.lastscore = -1
+        self.update()
+        self.rect = self.image.get_rect().move(10, 515)
+
+    def update(self):
+        if self.SCORE != self.lastscore:
+            self.lastscore = self.SCORE
+            msg = "Score: %d" % self.SCORE
+            self.image = self.font.render(msg, 0, (255,0,0))
+
 class Shot(pygame.sprite.Sprite):
     # class for working with player
 
@@ -10,6 +27,7 @@ class Shot(pygame.sprite.Sprite):
         self.px    = px
         self.py    = py
         self.image = pygame.image.load('shot.png')
+        self.image = pygame.transform.scale(self.image,(10,20))
         self.rect  = self.image.get_rect()
 
     def update(self):
@@ -25,6 +43,7 @@ class Hero(pygame.sprite.Sprite):
         self.px = px
         self.py = py
         self.image = pygame.image.load('spacy.png')
+        self.image = pygame.transform.scale(self.image, (50,30))
         self.rect = self.image.get_rect()
 
     def update(self):
@@ -64,7 +83,7 @@ class Monster(pygame.sprite.Sprite):
         self.m.sort()
         self.m_pos = 0
         self.img = pygame.image.load(self.m[0])
-        self.image = pygame.transform.scale(self.img, (50,50))
+        self.image = pygame.transform.scale(self.img, (30,30))
         self.rect = self.image.get_rect()
 
     def update(self):
@@ -97,5 +116,5 @@ class Fire(pygame.sprite.Sprite):
 
     def update(self):
         self.rect.move_ip(0,self.speed)
-        if self.rect.bottom >= 800:
+        if self.rect.bottom >= 499:
             self.kill()

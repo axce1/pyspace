@@ -3,8 +3,8 @@ import pygame
 import random
 import sys
 
-w = 850
-h = 500
+w = 800
+h = 550
 
 BOOMBS = 80
 life = 3
@@ -15,12 +15,6 @@ screen = pygame.display.set_mode((w,h))
 clock = pygame.time.Clock()
 
 enemies = []
-
-#for x in range(5):
-    #enemies.append(invaders.Monster(50*x+50, 50, 'boo'))
-    #enemies.append(invaders.Monster(50*x+50, 100, 'kva'))
-
-
 
 # create sprite group for shots
 monsterS = pygame.sprite.Group()
@@ -38,17 +32,17 @@ invaders.Boom.containers = all
 invaders.Fire.containers = fireS, all
 
 #create single sprite
-for x in range(5):
+for x in range(10):
     enemies.append(invaders.Monster(50*x+50, 50, 'boo'))
     enemies.append(invaders.Monster(50*x+50, 100, 'kva'))
 shot = invaders.Shot(0,0)
-hero = invaders.Hero(w/2,450)
+hero = invaders.Hero(w/2,475)
+score = invaders.Score()
 
-# repeat keydown
-#pygame.key.set_repeat(1,1)
+all.add(score)
 
 playtime = 0
-enemyspeed = 2
+enemyspeed = 1
 herospeed = 0
 killer = 0
 
@@ -58,10 +52,12 @@ while 1:
 
     all.update()
 
+    pygame.draw.line(screen, (255,0,0), (0,500),(800,500))
 
     for ev in pygame.event.get():
 
-        if ev.type == pygame.QUIT:
+        if ev.type == pygame.QUIT or \
+           (ev.type == pygame.KEYDOWN and ev.key == pygame.K_ESCAPE):
             sys.exit()
 
     keypress = pygame.key.get_pressed()
@@ -85,10 +81,10 @@ while 1:
         enemies[i].update()
 
     if enemies[len(enemies)-1].x > 750:
-        enemyspeed = -2
+        enemyspeed = -1
 
     if enemies[0].x < 50:
-        enemyspeed = 2
+        enemyspeed = 1
 
     for i in range(len(enemies)):
         enemies[i].x += enemyspeed
@@ -107,6 +103,7 @@ while 1:
         shot.kill()
         boom = invaders.Boom(monster)
         killer += 1
+        score.SCORE += 10
         print 'Fuck U Spilberg %.1f' %killer
 
     for fire in pygame.sprite.spritecollide(hero, fireS, 1, pygame.sprite.collide_mask):
@@ -120,8 +117,16 @@ while 1:
             life = 3
             hero = invaders.Hero(w/2,450)
 
+    for fire in  pygame.sprite.spritecollide(shot, fireS, 1, pygame.sprite.collide_mask):
+        shot.py = 0
+        fire.speed = 0
+        invaders.Boom(shot)
+        fire.kill()
+        shot.kill()
+
+
 
     dirty = all.draw(screen)
-    pygame.display.set_caption('Space Invaders - %.2f fps - %.2f' %(clock.get_fps(), playtime))
+    pygame.display.set_caption('Space Invaders - %.2f fps' %clock.get_fps())
     pygame.display.update(dirty)
 
